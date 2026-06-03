@@ -1,4 +1,4 @@
-package Spring.Boot.Ecommerce.Project.model;
+package com.ecommerce.project.model;
 
 public class Category {
     private Long categoryId;
