@@ -16,14 +16,17 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService{
     //private List<Category> categories = new ArrayList<>();
-
+    private Long nextId = 1L;
 
     @Autowired
     private CategoryRepository categoryRepository;
 
     @Override
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAll();
+        if (categories.isEmpty())
+            throw new APIException("No category created till now.");
+        return categories;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService{
         Category savedCategory = categoryRepository.findByCategoryName(category.getCategoryName());
         if (savedCategory != null)
             throw new APIException("Category with the name " + category.getCategoryName() + " already exists !!!");
-
+        category.setCategoryId(nextId++);
         categoryRepository.save(category);
     }
 
